@@ -1,5 +1,5 @@
 (function(){
-    
+
     const oldForm = document.getElementById('ticketlink-form');
     if (oldForm) oldForm.remove();
 
@@ -23,9 +23,10 @@
     form.style.zIndex = 99999;
     form.innerHTML = `
     <div id="main-container" style="font-size:14px; width:250px; background: #e9edf3; padding:10px;">
+       <input id="ticketlink-reserveOpenDate" style="display: none">
         <div style="margin-bottom:8px;">
-        <button id="fetch-schedules" style="color:blue; text-decoration:underline;">🕊️ _조회하러가기_ </button>
-        <div id="schedule-results" style="position:fixed; top:45px; display: none; border: 1px solid black; background: #e9edf3; left: calc(50% - 148px); width: 600px; min-height: 80px;  max-height:900px; overflow-y:auto; margin-top:5px; margin-bottom:5px;"></div>
+            <button id="fetch-schedules" style="color:blue; text-decoration:underline;">🕊️ _조회하러가기_ </button>
+            <div id="schedule-results" style="position:fixed; top:45px; display: none; border: 1px solid black; background: #e9edf3; left: calc(50% - 148px); width: 600px; min-height: 80px;  max-height:900px; overflow-y:auto; margin-top:5px; margin-bottom:5px;"></div>
         </div>
         <label style="width:100px; display:inline-block;">Product ID: 
         <input type="text" id="ticketlink-productId" value="" style="width:120px; margin-bottom:10px; display:inline-block;" />
@@ -34,9 +35,6 @@
         <input type="text" id="ticketlink-scheduleId" value="" style="width:120px; margin-bottom:10px; display:inline-block;" />
         </label><br/>
         
-        <p style="margin-bottom: 10px;">입력 없으면 11시 00 분 </p>
-        시간: <input type="text" id="match_hour" value="11" style="width:60px; text-indent: 3px; margin-bottom:10px;" />
-        분: <input type="text" id="match_min" value="00" style="width:60px; text-indent: 3px; margin-bottom:10px;" />
         <P style="margin-bottom: 10px;"></P>
         <button id="ticketlink-start" style="margin-right:10px;">시작</button>
         <button onclick="document.getElementById('ticketlink-form').remove(); document.body.style.overflow = '';">취소</button>
@@ -48,21 +46,14 @@
     document.getElementById('ticketlink-start').onclick = function() {
         const productId = document.getElementById('ticketlink-productId').value.trim();
         const scheduleId = document.getElementById('ticketlink-scheduleId').value.trim();
-        const matchHour = document.getElementById('match_hour').value.trim();
-        const matchMin = document.getElementById('match_min').value.trim();
+        const reserveOpenDate = Number(document.getElementById('ticketlink-reserveOpenDate').value.trim());
         if (!productId || !scheduleId) {
             alert('둘 다 입력하세요!');
             return;
         }
 
 
-        const targetHour = matchHour ?? 11;
-        const targetMinute = matchMin ?? 0;
-        const targetSecond = 0;
-        const targetMillis = 0;
-        const now = new Date();
-        const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), targetHour, targetMinute, targetSecond, targetMillis);
-
+        const target = new Date(reserveOpenDate);
         const checkTime = setInterval(() => {
             const now = new Date();
             if (target - now <= 50) {
@@ -163,6 +154,7 @@
                     li.onclick = () => {
                         document.getElementById('ticketlink-productId').value = item.productId;
                         document.getElementById('ticketlink-scheduleId').value = item.scheduleId;
+                        document.getElementById('ticketlink-reserveOpenDate').value = item.reserveOpenDate;
                     };
                     ul.appendChild(li);
                 });
