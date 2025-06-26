@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "티켓링크 한화 간편예매",
+  "version": "1.0",
+  "permissions": ["scripting", "activeTab"],
+  "host_permissions": [
+    "https://www.ticketlink.co.kr/*",
+    "https://mapi.ticketlink.co.kr/*"
+  ],
+  "action": {
+    "default_title": "티케터",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["ticketer.js"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
