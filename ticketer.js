@@ -1,4 +1,4 @@
-(function(){
+javascript:(function(){
     let checkTime = null;
     const oldForm = document.getElementById('ticketlink-form');
     if (oldForm) oldForm.remove();
@@ -142,9 +142,10 @@
         </label><br/>
         
         <P style="margin-bottom: 10px;"></P>
-        <button id="ticketlink-start" style="margin-right:10px;">시작</button>
-        <button onclick="closeTicketlinkForm()">중지 & 닫기</button>
-        <div id="time-left" style="margin-top: 20px; "></div>
+        <div id="time-reserve" style="margin-top: 10px; "> 예매시작 : </div>
+        <div id="time-left" style=" margin-top: 10px; "></div>
+        <button id="ticketlink-start" style="margin-right:10px; margin-top: 10px;">🚀 시작</button>
+        <button onclick="closeTicketlinkForm()" style="margin-top: 10px;">❌ 중지 & 닫기</button>
     </div>
   `;
     document.body.appendChild(form);
@@ -186,7 +187,7 @@
                 updateBg(totalSeconds);
                 timeLeftDiv.innerHTML = `
                   <p style="margin: 0"> -남은 시간- </p>
-                  <p style="margin: 0">${timeString}</p>
+                  <p style="margin: 0">🕒 ${timeString}</p>
                 `;
             }
         }, 10);
@@ -231,7 +232,7 @@
         const rDate = `${(reserveTime.getMonth()+1).toString().padStart(2,'0')}.${reserveTime.getDate().toString().padStart(2,'0')} (${daysOfWeek[reserveTime.getDay()]})`;
         const openHour = reserveTime.getHours().toString().padStart(2, '0');
         const openMin = reserveTime.getMinutes().toString().padStart(2, '0');
-        
+
         const li = document.createElement('li');
         li.style.cursor = 'pointer';
         li.style.margin = '10px';
@@ -267,6 +268,8 @@
             document.getElementById('ticketlink-productId').value = item.productId;
             document.getElementById('ticketlink-scheduleId').value = item.scheduleId;
             document.getElementById('ticketlink-reserveOpenDate').value = item.reserveOpenDate;
+            const resultsDiv = document.getElementById('time-reserve');
+            resultsDiv.innerHTML =`<p>예매시작 : ${openHour}:${openMin}</p>`;
         };
 
         return li;
