@@ -1,5 +1,5 @@
 (function(){
-
+    let checkTime = null;
     const oldForm = document.getElementById('ticketlink-form');
     if (oldForm) oldForm.remove();
 
@@ -11,6 +11,11 @@
         };
     };
 
+    window.closeTicketlinkForm = function() {
+        if (checkTime) clearInterval(checkTime);
+        document.getElementById('ticketlink-form').remove();
+        document.body.style.overflow = '';
+    };
 
 
     const form = document.createElement('div');
@@ -138,7 +143,7 @@
         
         <P style="margin-bottom: 10px;"></P>
         <button id="ticketlink-start" style="margin-right:10px;">시작</button>
-        <button onclick="document.getElementById('ticketlink-form').remove(); document.body.style.overflow = '';">닫기</button>
+        <button onclick="closeTicketlinkForm()">중지 & 닫기</button>
         <div id="time-left" style="margin-top: 20px; "></div>
     </div>
   `;
@@ -155,7 +160,7 @@
 
 
         const target = new Date(reserveOpenDate);
-        const checkTime = setInterval(() => {
+        checkTime = setInterval(() => {
             const now = new Date();
             if (target - now <= 50) {
                 document.getElementById('ticketlink-form').remove();
